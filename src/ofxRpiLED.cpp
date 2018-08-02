@@ -4,7 +4,7 @@
 // Constructor
 ofxRpiLED::ofxRpiLED() {
 	rows = 32;    // A 32x32 display. Use 16 when this is a 16x32 display.
-	chain = 2;    // Number of boards chained together.
+	chain = 4;    // Number of boards chained together.
 	parallel = 1; // Number of chains in parallel (1..3). > 1 for plus or Pi2
 }
 
@@ -28,6 +28,7 @@ void ofxRpiLED::setup() {
 	defaults.chain_length = chain;
 	defaults.parallel = parallel;
 	defaults.brightness = 50;
+	defaults.pixel_mapper_config = "U-mapper";
 
 	canvas = new RGBMatrix(&io, defaults);
 
