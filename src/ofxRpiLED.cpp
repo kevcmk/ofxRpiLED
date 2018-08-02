@@ -21,7 +21,15 @@ void ofxRpiLED::setup() {
 	if (!io.Init())
 		return;
 
-	canvas = new RGBMatrix(&io, rows, chain, parallel);
+	RGBMatrix::Options defaults;
+
+	defaults.hardware_mapping = "adafruit-hat";
+	defaults.rows = rows;
+	defaults.chain_length = chain;
+	defaults.parallel = parallel;
+	defaults.brightness = 50;
+
+	canvas = new RGBMatrix(&io, defaults);
 
 	/* 
 	* Clear and cache size 
