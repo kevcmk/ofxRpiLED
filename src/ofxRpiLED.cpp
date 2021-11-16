@@ -22,16 +22,33 @@ void ofxRpiLED::setup() {
 		return;
 
 	RGBMatrix::Options defaults;
+/*
+-e MATRIX_WIDTH=32
+-e MATRIX_HEIGHT=160
+-e RUN_ARG_LED_CHAIN=5
+-e RUN_ARG_LED_PIXEL_MAPPER=Rotate:270
+-e RUN_ARG_LED_GPIO_MAPPING=adafruit-hat
+-e RUN_ARG_LED_SLOWDOWN_GPIO=2
 
+ */
 	defaults.hardware_mapping = "adafruit-hat";
-	defaults.rows = rows;
-	defaults.chain_length = chain;
-	defaults.parallel = parallel;
+    defaults.rows = 160;
+    defaults.cols = 32;
+	defaults.chain_length = 5;
+    defaults.parallel = 1;
 	defaults.brightness = 50;
-	defaults.pixel_mapper_config = "U-mapper";
+	defaults.pixel_mapper_config = "Rotate:270";
+        
+    rgb_matrix::RuntimeOptions runtime;
+    runtime.gpio_slowdown = 2;
 
-	canvas = new RGBMatrix(&io, defaults);
-
+    RGBMatrix *matrix = CreateMatrixFromOptions(defaults, runtime);
+    matrix->SetGPIO(&io);
+    
+    canvas = matrix->CreateFrameCanvas();
+    
+    
+    
 	/* 
 	* Clear and cache size 
 	*/
