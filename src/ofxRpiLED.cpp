@@ -19,6 +19,7 @@ void ofxRpiLED::setup() {
 	* Set up GPIO pins. This fails when not running as root.
 	*/
 	if (!io.Init())
+        cout << "IO Initialization failed!" << endl;
 		return;
 
 	RGBMatrix::Options defaults;
@@ -32,7 +33,7 @@ void ofxRpiLED::setup() {
 
  */
 	defaults.hardware_mapping = "adafruit-hat";
-    defaults.rows = 160;
+    defaults.rows = 32;
     defaults.cols = 32;
 	defaults.chain_length = 5;
     defaults.parallel = 1;
