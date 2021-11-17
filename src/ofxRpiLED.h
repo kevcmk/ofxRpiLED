@@ -1,5 +1,6 @@
 #include "ofMain.h"
 #include "../libs/rgb_matrix/include/led-matrix.h"
+#include "../libs/rgb_matrix/include/graphics.h"
 
 using rgb_matrix::GPIO;
 using rgb_matrix::RGBMatrix;
@@ -13,7 +14,8 @@ private:
 	int 		parallel;	// Number of chains in parallel (1..3). > 1 for plus or Pi2
 	int 		cW;
 	int 		cH;
-	Canvas 		*canvas;
+	rgb_matrix::RGBMatrix 	*matrix;
+    rgb_matrix::FrameCanvas *off_screen_canvas;
 	GPIO 		io;
 
 public:
