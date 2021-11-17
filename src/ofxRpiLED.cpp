@@ -44,13 +44,13 @@ void ofxRpiLED::setup() {
     rgb_matrix::RuntimeOptions runtime;
     runtime.gpio_slowdown = 2;
     
-    int argc;
-    char ** argv = [];
+    int argc = 0;
+    char * argv[] = {const_cast<char*>("blah"),const_cast<char*>("blah"), NULL};
     
-    if (!rgb_matrix::ParseOptionsFromFlags(&argc, &argv, &defaults, &runtime)) {
+    if (!rgb_matrix::ParseOptionsFromFlags(&argc, (char***) &argv, &defaults, &runtime)) {
         cout << "Verifying parameters..." << endl;
         rgb_matrix::PrintMatrixFlags(stderr);
-        exit(1)
+        exit(1);
     }
    
 
