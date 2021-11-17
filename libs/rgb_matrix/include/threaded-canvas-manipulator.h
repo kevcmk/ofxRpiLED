@@ -36,8 +36,8 @@ namespace rgb_matrix {
       while (running()) {
         // Calculate the next frame.
         c++;
-        for (int x = 0; x < canvas()->width(); ++x) {
-          for (int y = 0; y < canvas()->height(); ++y) {
+        for (unsigned int x = 0; x < canvas()->width(); ++x) {
+          for (unsigned int y = 0; y < canvas()->height(); ++y) {
             canvas()->SetPixel(x, y, c, c, c);
           }
         }
