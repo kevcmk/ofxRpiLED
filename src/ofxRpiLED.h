@@ -19,8 +19,9 @@ private:
 public:
 	ofxRpiLED();
 	~ofxRpiLED();
-	void setup();
-	void setup(int _rows, int _chain, int _parallel);
+    void setup();
+    void setup(int _rows, int _chain, int _parallel);
+    void setup(RGBMatrix::Options options, rgb_matrix::RuntimeOptions runtime);
 	void clear();
 	void draw(ofImage &i);
 	void draw(ofPixels &p);
