@@ -18,11 +18,8 @@ void ofxRpiLED::setup() {
 	/*
 	* Set up GPIO pins. This fails when not running as root.
 	*/
-	if (!io.Init())
-        cout << "IO Initialization failed!" << endl;
-		return;
-
-	RGBMatrix::Options defaults;
+	RGBMatrix::Options options;
+    rgb_matrix::RuntimeOptions runtime;
 /*
 -e MATRIX_WIDTH=32
 -e MATRIX_HEIGHT=160
@@ -33,36 +30,32 @@ void ofxRpiLED::setup() {
 
  */
     
-	defaults.hardware_mapping = "adafruit-hat";
-    defaults.rows = 32;
-    defaults.cols = 32;
-	defaults.chain_length = 1;
-    defaults.parallel = 1;
-	defaults.brightness = 50;
-	defaults.pixel_mapper_config = "Rotate:270";
+    options.hardware_mapping = "adafruit-hat";
+    options.rows = 32;
+    options.cols = 32;
+    options.chain_length = 1;
+    options.parallel = 1;
+    options.brightness = 50;
+    options.pixel_mapper_config = "Rotate:270";
         
-    rgb_matrix::RuntimeOptions runtime;
     runtime.gpio_slowdown = 2;
     
     int argc = 0;
     char * argv[] = {const_cast<char*>("blah"),const_cast<char*>("blah"), NULL};
     
-    if (!rgb_matrix::ParseOptionsFromFlags(&argc, (char***) &argv, &defaults, &runtime)) {
+    if (!rgb_matrix::ParseOptionsFromFlags(&argc, (char***) &argv, &options, &runtime)) {
         cout << "Verifying parameters..." << endl;
         rgb_matrix::PrintMatrixFlags(stderr);
         exit(1);
     }
-   
-
-    RGBMatrix * matrix = CreateMatrixFromOptions(defaults, runtime);
+    
+    RGBMatrix * matrix = CreateMatrixFromOptions(options, runtime);
     if (matrix == NULL) {
         cout << "Creating matrix failed!" << endl;
         exit(1);
     }
-    matrix->SetGPIO(&io);
     
     canvas = matrix; // Downcast to canvas;
-    
 	/* 
 	* Clear and cache size 
 	*/
