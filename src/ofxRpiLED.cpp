@@ -43,12 +43,13 @@ void ofxRpiLED::setup() {
     rgb_matrix::RuntimeOptions runtime;
     runtime.gpio_slowdown = 2;
 
-    RGBMatrix *matrix = CreateMatrixFromOptions(defaults, runtime);
+    RGBMatrix * matrix = CreateMatrixFromOptions(defaults, runtime);
+    if (canvas == NULL) {
+        cout << "Creating matrix failed!" << endl;
+    }
     matrix->SetGPIO(&io);
     
-    canvas = matrix->CreateFrameCanvas();
-    
-    
+    canvas = matrix; // Downcast to canvas;
     
 	/* 
 	* Clear and cache size 
