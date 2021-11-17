@@ -35,7 +35,7 @@ void ofxRpiLED::setup() {
 	defaults.hardware_mapping = "adafruit-hat";
     defaults.rows = 32;
     defaults.cols = 32;
-	defaults.chain_length = 5;
+	defaults.chain_length = 1;
     defaults.parallel = 1;
 	defaults.brightness = 50;
 	defaults.pixel_mapper_config = "Rotate:270";
