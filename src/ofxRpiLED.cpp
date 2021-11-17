@@ -2,11 +2,7 @@
 
 
 // Constructor
-ofxRpiLED::ofxRpiLED() {
-	rows = 32;    // A 32x32 display. Use 16 when this is a 16x32 display.
-	chain = 4;    // Number of boards chained together.
-	parallel = 1; // Number of chains in parallel (1..3). > 1 for plus or Pi2
-}
+ofxRpiLED::ofxRpiLED() {}
 
 // Desonstructor
 ofxRpiLED::~ofxRpiLED() {
@@ -15,40 +11,31 @@ ofxRpiLED::~ofxRpiLED() {
 }
 
 void ofxRpiLED::setup() {
+    RGBMatrix::Options options;
+    rgb_matrix::RuntimeOptions runtime;
+    options.hardware_mapping = "adafruit-hat";
+    options.rows = 32; // A 32x32 display. Use 16 when this is a 16x32 display.
+    options.chain_length = 4; // Number of boards chained together.
+    options.parallel = 1; // Number of chains in parallel (1..3). > 1 for plus or Pi2
+    options.brightness = 50;
+    setup(options, runtime);
+}
+
+void ofxRpiLED::setup(int _rows, int _chain, int _parallel) {
+    RGBMatrix::Options options;
+    rgb_matrix::RuntimeOptions runtime;
+    options.hardware_mapping = "adafruit-hat";
+    options.rows = _rows; // A 32x32 display. Use 16 when this is a 16x32 display.
+    options.chain_length = _chain; // Number of boards chained together.
+    options.parallel = _parallel; // Number of chains in parallel (1..3). > 1 for plus or Pi2
+    options.brightness = 50;
+    setup(options, runtime);
+}
+
+void ofxRpiLED::setup(RGBMatrix::Options options, rgb_matrix::RuntimeOptions runtime) {
 	/*
 	* Set up GPIO pins. This fails when not running as root.
 	*/
-	RGBMatrix::Options options;
-    rgb_matrix::RuntimeOptions runtime;
-/*
--e MATRIX_WIDTH=32
--e MATRIX_HEIGHT=160
--e RUN_ARG_LED_CHAIN=5
--e RUN_ARG_LED_PIXEL_MAPPER=Rotate:270
--e RUN_ARG_LED_GPIO_MAPPING=adafruit-hat
--e RUN_ARG_LED_SLOWDOWN_GPIO=2
-
- */
-    
-    options.hardware_mapping = "adafruit-hat";
-    options.rows = 32;
-    options.cols = 32;
-    options.chain_length = 1;
-    options.parallel = 1;
-    options.brightness = 50;
-    options.pixel_mapper_config = "Rotate:270";
-        
-    runtime.gpio_slowdown = 2;
-    
-    int argc = 0;
-    char * argv[] = {const_cast<char*>("blah"),const_cast<char*>("blah"), NULL};
-    
-//    if (!rgb_matrix::ParseOptionsFromFlags(&argc, (char***) &argv, &options, &runtime)) {
-//        cout << "Verifying parameters..." << endl;
-//        rgb_matrix::PrintMatrixFlags(stderr);
-//        exit(1);
-//    }
-    
     RGBMatrix * matrix = CreateMatrixFromOptions(options, runtime);
     if (matrix == NULL) {
         cout << "Creating matrix failed!" << endl;
@@ -63,13 +50,6 @@ void ofxRpiLED::setup() {
 	canvas->Fill(0,0,0);
 	cW = canvas->width();
 	cH = canvas->height();
-}
-
-void ofxRpiLED::setup(int _rows, int _chain, int _parallel){
-	rows 		= _rows;
-	chain 		= _chain;
-	parallel 	= _parallel;
-	setup();
 }
 
 void ofxRpiLED::clear(){
