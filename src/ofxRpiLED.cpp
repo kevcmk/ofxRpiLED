@@ -43,11 +43,11 @@ void ofxRpiLED::setup() {
     int argc = 0;
     char * argv[] = {const_cast<char*>("blah"),const_cast<char*>("blah"), NULL};
     
-    if (!rgb_matrix::ParseOptionsFromFlags(&argc, (char***) &argv, &options, &runtime)) {
-        cout << "Verifying parameters..." << endl;
-        rgb_matrix::PrintMatrixFlags(stderr);
-        exit(1);
-    }
+//    if (!rgb_matrix::ParseOptionsFromFlags(&argc, (char***) &argv, &options, &runtime)) {
+//        cout << "Verifying parameters..." << endl;
+//        rgb_matrix::PrintMatrixFlags(stderr);
+//        exit(1);
+//    }
     
     RGBMatrix * matrix = CreateMatrixFromOptions(options, runtime);
     if (matrix == NULL) {
