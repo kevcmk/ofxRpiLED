@@ -32,6 +32,7 @@ void ofxRpiLED::setup() {
 -e RUN_ARG_LED_SLOWDOWN_GPIO=2
 
  */
+    
 	defaults.hardware_mapping = "adafruit-hat";
     defaults.rows = 32;
     defaults.cols = 32;
@@ -42,10 +43,21 @@ void ofxRpiLED::setup() {
         
     rgb_matrix::RuntimeOptions runtime;
     runtime.gpio_slowdown = 2;
+    
+    int argc;
+    char ** argv = [];
+    
+    if (!rgb_matrix::ParseOptionsFromFlags(&argc, &argv, &defaults, &runtime)) {
+        cout << "Verifying parameters..." << endl;
+        rgb_matrix::PrintMatrixFlags(stderr);
+        exit(1)
+    }
+   
 
     RGBMatrix * matrix = CreateMatrixFromOptions(defaults, runtime);
-    if (canvas == NULL) {
+    if (matrix == NULL) {
         cout << "Creating matrix failed!" << endl;
+        exit(1);
     }
     matrix->SetGPIO(&io);
     
