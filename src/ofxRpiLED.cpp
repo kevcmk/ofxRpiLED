@@ -19,13 +19,22 @@ void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int ch
     rgb_matrix::RGBMatrix::Options options;
     rgb_matrix::RuntimeOptions runtime;
     
-    options.hardware_mapping = hardwareMapping.c_str(); // {hardware_mapping = 0x8358d0 "\030\270>\266",
+    
+    
+    const std::string::size_type size = hardwareMapping.size();
+    char *buffer = new char[size + 1];   //we need extra char for NUL
+    memcpy(buffer, hardwareMapping.c_str(), size + 1);
+    
+    // This looks like it gets prematurely deallocated without a copy
+    options.hardware_mapping = buffer; // {hardware_mapping = 0x8358d0 "\030\270>\266",
     cout << "Hardware Mapping: " << options.hardware_mapping << endl;
+    
+    
     options.rows = rows; // Default
     options.cols = columns; // Default
     options.chain_length = chain;
     options.parallel = parallel;
-    options.brightness = brightness;
+    //    options.brightness = brightness;
     // options.pixel_mapper_config = "Rotate:270";
     runtime.gpio_slowdown = gpioSlowdown;
     
