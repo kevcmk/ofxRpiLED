@@ -11,32 +11,23 @@ ofxRpiLED::~ofxRpiLED() {
     delete matrix;
 }
 
-void ofxRpiLED::setup() {
-    RGBMatrix::Options options;
-    rgb_matrix::RuntimeOptions runtime;
-    options.hardware_mapping = "adafruit-hat";
-    options.rows = 32; // A 32x32 display. Use 16 when this is a 16x32 display.
-    options.chain_length = 4; // Number of boards chained together.
-    options.parallel = 1; // Number of chains in parallel (1..3). > 1 for plus or Pi2
-    options.brightness = 50;
-    setup(options, runtime);
-}
-
-void ofxRpiLED::setup(int _rows, int _chain, int _parallel) {
-    RGBMatrix::Options options;
-    rgb_matrix::RuntimeOptions runtime;
-    options.hardware_mapping = "adafruit-hat";
-    options.rows = _rows; // A 32x32 display. Use 16 when this is a 16x32 display.
-    options.chain_length = _chain; // Number of boards chained together.
-    options.parallel = _parallel; // Number of chains in parallel (1..3). > 1 for plus or Pi2
-    options.brightness = 50;
-    setup(options, runtime);
-}
-
-void ofxRpiLED::setup(RGBMatrix::Options options, rgb_matrix::RuntimeOptions runtime) {
+void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int chain, int parallel, int brightness, int gpioSlowdown) {
 	/*
 	* Set up GPIO pins. This fails when not running as root.
 	*/
+    
+    rgb_matrix::RGBMatrix::Options options;
+    rgb_matrix::RuntimeOptions runtime;
+    
+    options.hardware_mapping = hardwareMapping.c_str();
+    options.rows = rows; // Default
+    options.cols = columns; // Default
+    options.chain_length = chain;
+    options.parallel = parallel;
+    options.brightness = brightness;
+    // options.pixel_mapper_config = "Rotate:270";
+    runtime.gpio_slowdown = gpioSlowdown;
+    
     matrix = CreateMatrixFromOptions(options, runtime);
     if (matrix == NULL) {
         cout << "Creating matrix failed!" << endl;
