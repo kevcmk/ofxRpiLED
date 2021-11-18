@@ -37,7 +37,7 @@ void ofxRpiLED::setup(RGBMatrix::Options options, rgb_matrix::RuntimeOptions run
 	/*
 	* Set up GPIO pins. This fails when not running as root.
 	*/
-    RGBMatrix * matrix = CreateMatrixFromOptions(options, runtime);
+    matrix = CreateMatrixFromOptions(options, runtime);
     if (matrix == NULL) {
         cout << "Creating matrix failed!" << endl;
         exit(1);
