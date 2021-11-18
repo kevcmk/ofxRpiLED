@@ -1,5 +1,5 @@
 #include "ofxRpiLED.h"
-
+#include <stdexcept>
 
 // Constructor
 ofxRpiLED::ofxRpiLED() {}
@@ -19,7 +19,8 @@ void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int ch
     rgb_matrix::RGBMatrix::Options options;
     rgb_matrix::RuntimeOptions runtime;
     
-    options.hardware_mapping = hardwareMapping.c_str();
+    options.hardware_mapping = hardwareMapping.c_str(); // {hardware_mapping = 0x8358d0 "\030\270>\266",
+    cout << "Hardware Mapping: " << options.hardware_mapping << endl;
     options.rows = rows; // Default
     options.cols = columns; // Default
     options.chain_length = chain;
@@ -27,6 +28,11 @@ void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int ch
     options.brightness = brightness;
     // options.pixel_mapper_config = "Rotate:270";
     runtime.gpio_slowdown = gpioSlowdown;
+    
+    std::string err = "";
+    if (!options.Validate(&err)) {
+        throw new std::invalid_argument("Invalid LED Options: " + err);
+    };
     
     matrix = CreateMatrixFromOptions(options, runtime);
     if (matrix == NULL) {
@@ -53,8 +59,8 @@ void ofxRpiLED::clear(){
 void ofxRpiLED::draw(ofPixels &p){
 	int w = cW > p.getWidth()  ? cW : p.getWidth();
 	int h = cH > p.getHeight() ? cH : p.getHeight();	
-	for (unsigned int x = 0; x < w; x++) {
-		for (unsigned int y = 0; y < h; y++) {
+	for (int x = 0; x < w; x++) {
+		for (int y = 0; y < h; y++) {
 			ofColor c = p.getColor(x, y);
             off_screen_canvas->SetPixel(x, y, c.r, c.g, c.b);
 		}
@@ -65,7 +71,7 @@ void ofxRpiLED::draw(ofPixels &p){
 void ofxRpiLED::draw(ofImage &i){
 	int w = cW > i.getWidth()  ? cW : i.getWidth();
 	int h = cH > i.getHeight() ? cH : i.getHeight();	
-	for (unsigned int x = 0; x < w; x++) {
+	for (int x = 0; x < w; x++) {
 		for (unsigned int y = 0; y < h; y++) {
 			ofColor c = i.getColor(x, y);
             off_screen_canvas->SetPixel(x, y, c.r, c.g, c.b);

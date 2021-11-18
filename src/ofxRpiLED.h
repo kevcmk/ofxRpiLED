@@ -25,4 +25,5 @@ public:
 	void clear();
 	void draw(ofImage &i);
 	void draw(ofPixels &p);
+    
 };
