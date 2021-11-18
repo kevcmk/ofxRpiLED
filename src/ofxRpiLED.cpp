@@ -12,6 +12,7 @@ ofxRpiLED::~ofxRpiLED() {
 }
 
 void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int chain, int parallel, int brightness, int gpioSlowdown) {
+    
 	/*
 	* Set up GPIO pins. This fails when not running as root.
 	*/
@@ -43,7 +44,7 @@ void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int ch
         throw new std::invalid_argument("Invalid LED Options: " + err);
     };
     
-    matrix = CreateMatrixFromOptions(options, runtime);
+    matrix = rgb_matrix::CreateMatrixFromOptions(options, runtime);
     if (matrix == NULL) {
         cout << "Creating matrix failed!" << endl;
         exit(1);
@@ -58,11 +59,13 @@ void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int ch
 	cH = matrix->height();
     
     off_screen_canvas = matrix->CreateFrameCanvas();
+    
+    canvas = matrix;
 
 }
 
 void ofxRpiLED::clear(){
-	matrix->Clear();
+	canvas->Clear();
 }
 
 void ofxRpiLED::draw(ofPixels &p){
