@@ -2,9 +2,9 @@
 #include "../libs/rgb_matrix/include/led-matrix.h"
 #include "../libs/rgb_matrix/include/graphics.h"
 
-using rgb_matrix::GPIO;
-using rgb_matrix::RGBMatrix;
-using rgb_matrix::Canvas;
+//using rgb_matrix::GPIO;
+//using rgb_matrix::RGBMatrix;
+//using rgb_matrix::Canvas;
 
 class ofxRpiLED {
     
@@ -14,17 +14,17 @@ private:
 	int 		parallel;	// Number of chains in parallel (1..3). > 1 for plus or Pi2
 	int 		cW;
 	int 		cH;
-	rgb_matrix::RGBMatrix 	*matrix;
+    rgb_matrix::RGBMatrix   *matrix;
+    rgb_matrix::Canvas      *canvas;
     rgb_matrix::FrameCanvas *off_screen_canvas;
-	GPIO 		io;
+    rgb_matrix::GPIO 		io;
 
 public:
 	ofxRpiLED();
 	~ofxRpiLED();
-    void setup();
-    void setup(int _rows, int _chain, int _parallel);
-    void setup(RGBMatrix::Options options, rgb_matrix::RuntimeOptions runtime);
+    void setup(std::string hardwareMapping, int columns, int rows, int chain, int parallel, int brightness, int gpioSlowdown);
 	void clear();
 	void draw(ofImage &i);
 	void draw(ofPixels &p);
+    
 };
