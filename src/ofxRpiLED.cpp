@@ -35,7 +35,7 @@ void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int ch
     options.cols = columns; // Default
     options.chain_length = chain;
     options.parallel = parallel;
-    //    options.brightness = brightness;
+    options.brightness = brightness;
     // options.pixel_mapper_config = "Rotate:270";
     runtime.gpio_slowdown = gpioSlowdown;
     
@@ -74,11 +74,11 @@ void ofxRpiLED::draw(ofPixels &p){
 	for (int x = 0; x < w; x++) {
 		for (int y = 0; y < h; y++) {
 			ofColor c = p.getColor(x, y);
-            matrix->SetPixel(x, y, 128, 128, 128);
-//            off_screen_canvas->SetPixel(x, y, c.r, c.g, c.b);
+//            matrix->SetPixel(x, y, c.r, c.g, c.b);;
+            off_screen_canvas->SetPixel(x, y, c.r, c.g, c.b);
 		}
 	}
-//    off_screen_canvas = matrix->SwapOnVSync(off_screen_canvas);
+    off_screen_canvas = matrix->SwapOnVSync(off_screen_canvas);
 }
 
 void ofxRpiLED::draw(ofImage &i){
@@ -87,9 +87,9 @@ void ofxRpiLED::draw(ofImage &i){
 	for (int x = 0; x < w; x++) {
 		for (unsigned int y = 0; y < h; y++) {
 			ofColor c = i.getColor(x, y);
-            matrix->SetPixel(x, y, 128, 128, 128);
-//            off_screen_canvas->SetPixel(x, y, c.r, c.g, c.b);
+//            matrix->SetPixel(x, y, c.r, c.g, c.b);
+            off_screen_canvas->SetPixel(x, y, c.r, c.g, c.b);
 		}
 	}
-//    off_screen_canvas = matrix->SwapOnVSync(off_screen_canvas);
+    off_screen_canvas = matrix->SwapOnVSync(off_screen_canvas);
 }
