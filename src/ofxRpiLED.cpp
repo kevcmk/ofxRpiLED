@@ -13,23 +13,14 @@ ofxRpiLED::~ofxRpiLED() {
 
 void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int chain, int parallel, int brightness, int gpioSlowdown) {
     
-	/*
-	* Set up GPIO pins. This fails when not running as root.
-	*/
-    
     rgb_matrix::RGBMatrix::Options options;
     rgb_matrix::RuntimeOptions runtime;
     
-    
-    
     const std::string::size_type size = hardwareMapping.size();
-    char *buffer = new char[size + 1];   //we need extra char for NUL
+    char *buffer = new char[size + 1]; //we need extra char for NUL
     memcpy(buffer, hardwareMapping.c_str(), size + 1);
-    
     // This looks like it gets prematurely deallocated without a copy
     options.hardware_mapping = buffer; // {hardware_mapping = 0x8358d0 "\030\270>\266",
-    cout << "Hardware Mapping: " << options.hardware_mapping << endl;
-    
     
     options.rows = rows; // Default
     options.cols = columns; // Default
@@ -37,6 +28,7 @@ void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int ch
     options.parallel = parallel;
     options.brightness = brightness;
     // options.pixel_mapper_config = "Rotate:270";
+    
     runtime.gpio_slowdown = gpioSlowdown;
     
     std::string err = "";
@@ -50,13 +42,10 @@ void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int ch
         exit(1);
     }
     
-	/* 
-	* Clear and cache size 
-	*/
-	
-    //	canvas->Fill(0,0,0);
-	cW = matrix->width();
-	cH = matrix->height();
+    cW = matrix->width();
+    cH = matrix->height();
+
+    matrix->Fill(0,0,0);
     
     off_screen_canvas = matrix->CreateFrameCanvas();
     
@@ -74,7 +63,6 @@ void ofxRpiLED::draw(ofPixels &p){
 	for (int x = 0; x < w; x++) {
 		for (int y = 0; y < h; y++) {
 			ofColor c = p.getColor(x, y);
-//            matrix->SetPixel(x, y, c.r, c.g, c.b);;
             off_screen_canvas->SetPixel(x, y, c.r, c.g, c.b);
 		}
 	}
@@ -87,7 +75,6 @@ void ofxRpiLED::draw(ofImage &i){
 	for (int x = 0; x < w; x++) {
 		for (unsigned int y = 0; y < h; y++) {
 			ofColor c = i.getColor(x, y);
-//            matrix->SetPixel(x, y, c.r, c.g, c.b);
             off_screen_canvas->SetPixel(x, y, c.r, c.g, c.b);
 		}
 	}
