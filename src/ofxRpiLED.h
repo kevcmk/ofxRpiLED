@@ -2,10 +2,6 @@
 #include "../libs/rgb_matrix/include/led-matrix.h"
 #include "../libs/rgb_matrix/include/graphics.h"
 
-//using rgb_matrix::GPIO;
-//using rgb_matrix::RGBMatrix;
-//using rgb_matrix::Canvas;
-
 class ofxRpiLED {
     
 private:
@@ -21,7 +17,16 @@ private:
 public:
 	ofxRpiLED();
 	~ofxRpiLED();
-    void setup(std::string hardwareMapping, int columns, int rows, int chain, int parallel, int brightness, int gpioSlowdown);
+    void setup(std::string hardwareMapping,
+               int columns,
+               int rows,
+               int chain,
+               int parallel,
+               int brightness,
+               int gpioSlowdown,
+               std::string pixelMapperConfig = std::string(""),
+               std::string ledRgbSequence = std::string("RGB")
+               );
 	void clear();
 	void draw(ofImage &i);
 	void draw(ofPixels &p);
