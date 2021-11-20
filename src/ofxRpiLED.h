@@ -14,10 +14,9 @@ private:
 	int 		parallel;	// Number of chains in parallel (1..3). > 1 for plus or Pi2
 	int 		cW;
 	int 		cH;
-    rgb_matrix::RGBMatrix   *matrix;
-    rgb_matrix::Canvas      *canvas;
-    rgb_matrix::FrameCanvas *off_screen_canvas;
-    rgb_matrix::GPIO 		io;
+        rgb_matrix::RGBMatrix   *matrix;
+        rgb_matrix::Canvas      *canvas;
+        rgb_matrix::FrameCanvas *off_screen_canvas;
 
 public:
 	ofxRpiLED();

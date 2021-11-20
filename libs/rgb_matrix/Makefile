@@ -21,5 +21,14 @@ clean:
 	$(MAKE) -C examples-api-use clean
 	$(MAKE) -C $(PYTHON_LIB_DIR) clean
 
+build-csharp:
+	$(MAKE) -C $(CSHARP_LIB_DIR) build
+
+build-python: $(RGB_LIBRARY)
+	$(MAKE) -C $(PYTHON_LIB_DIR) build
+
+install-python: build-python
+	$(MAKE) -C $(PYTHON_LIB_DIR) install
+
 FORCE:
 .PHONY: FORCE
