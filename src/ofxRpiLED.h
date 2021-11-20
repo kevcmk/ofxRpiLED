@@ -17,12 +17,20 @@ private:
     rgb_matrix::RGBMatrix   *matrix;
     rgb_matrix::Canvas      *canvas;
     rgb_matrix::FrameCanvas *off_screen_canvas;
-    rgb_matrix::GPIO 		io;
 
 public:
 	ofxRpiLED();
 	~ofxRpiLED();
-    void setup(std::string hardwareMapping, int columns, int rows, int chain, int parallel, int brightness, int gpioSlowdown);
+    void setup(std::string hardwareMapping,
+               int columns,
+               int rows,
+               int chain,
+               int parallel,
+               int brightness,
+               int gpioSlowdown,
+               std::string pixelMapperConfig = std::string(""),
+               std::string ledRgbSequence = std::string("RGB")
+               );
 	void clear();
 	void draw(ofImage &i);
 	void draw(ofPixels &p);

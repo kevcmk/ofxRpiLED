@@ -11,23 +11,28 @@ ofxRpiLED::~ofxRpiLED() {
     delete matrix;
 }
 
-void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int chain, int parallel, int brightness, int gpioSlowdown) {
+void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int chain, int parallel, int brightness, int gpioSlowdown, std::string pixelMapperConfig, std::string ledRgbSequence) {
     
     rgb_matrix::RGBMatrix::Options options;
     rgb_matrix::RuntimeOptions runtime;
     
-    const std::string::size_type size = hardwareMapping.size();
-    char *buffer = new char[size + 1]; //we need extra char for NUL
-    memcpy(buffer, hardwareMapping.c_str(), size + 1);
+    const std::string::size_type hardwareMappingSize = hardwareMapping.size();
+    char *hardwareMappingBuffer = new char[hardwareMappingSize + 1]; //we need extra char for NUL
+    memcpy(hardwareMappingBuffer, hardwareMapping.c_str(), hardwareMappingSize + 1);
     // This looks like it gets prematurely deallocated without a copy
-    options.hardware_mapping = buffer; // {hardware_mapping = 0x8358d0 "\030\270>\266",
+    options.hardware_mapping = hardwareMappingBuffer; // {hardware_mapping = 0x8358d0 "\030\270>\266",
     
     options.rows = rows; // Default
     options.cols = columns; // Default
     options.chain_length = chain;
     options.parallel = parallel;
     options.brightness = brightness;
-    // options.pixel_mapper_config = "Rotate:270";
+    
+    const std::string::size_type pixelMapperConfigSize = pixelMapperConfig.size();
+    char *pixelMapperConfigBuffer = new char[pixelMapperConfigSize + 1]; //we need extra char for NUL
+    memcpy(pixelMapperConfigBuffer, pixelMapperConfig.c_str(), pixelMapperConfigSize + 1);
+    // This looks like it gets prematurely deallocated without a copy
+    options.pixel_mapper_config = pixelMapperConfigBuffer;
     
     runtime.gpio_slowdown = gpioSlowdown;
     
