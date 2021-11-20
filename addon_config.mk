@@ -69,4 +69,4 @@ common:
     # ADDON_INCLUDES_EXCLUDE = 
 	
 	OFXRPILED_ROOT = $(OF_ROOT)/addons/ofxRpiLED/libs/rgb_matrix
-	ADDON_LDFLAGS = $(OFXRPILED_ROOT)/lib/linux/librgbmatrix.a  -lrt -lm -lpthread	
+	ADDON_LDFLAGS = $(OFXRPILED_ROOT)/lib/librgbmatrix.a  -lrt -lm -lpthread	

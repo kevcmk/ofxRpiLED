@@ -40,7 +40,13 @@ public:
   // valid.
   virtual void Start(int realtime_priority = 0, uint32_t cpu_affinity_mask = 0);
 
-  // Override this.
+  // Override this to do the work.
+  //
+  // This will be called in a thread once Start() has been called. You typically
+  // will have an endless loop doing stuff.
+  //
+  // It is a good idea to provide a way to communicate to the thread that
+  // it should stop (see ThreadedCanvasManipulator for an example)
   virtual void Run() = 0;
 
 private:
@@ -56,7 +62,11 @@ public:
   ~Mutex() { pthread_mutex_destroy(&mutex_); }
   void Lock() { pthread_mutex_lock(&mutex_); }
   void Unlock() { pthread_mutex_unlock(&mutex_); }
-  void WaitOn(pthread_cond_t *cond) { pthread_cond_wait(cond, &mutex_); }
+
+  // Wait on condition. If "timeout_ms" is < 0, it waits forever, otherwise
+  // until timeout is reached.
+  // Returns 'true' if condition is met, 'false', if wait timed out.
+  bool WaitOn(pthread_cond_t *cond, long timeout_ms = -1);
 
 private:
   pthread_mutex_t mutex_;
