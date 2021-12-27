@@ -51,8 +51,6 @@ void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int ch
 
     matrix->Fill(0,0,0);
     
-    off_screen_canvas = matrix->CreateFrameCanvas();
-    
     canvas = matrix;
 
 }
@@ -76,7 +74,7 @@ void ofxRpiLED::draw(ofImage &i){
 	int w = cW > i.getWidth()  ? cW : i.getWidth();
 	int h = cH > i.getHeight() ? cH : i.getHeight();	
 	for (int x = 0; x < w; x++) {
-		for (unsigned int y = 0; y < h; y++) {
+		for (int y = 0; y < h; y++) {
 			ofColor c = i.getColor(x, y);
             matrix->SetPixel(x, y, c.r, c.g, c.b);
 		}
