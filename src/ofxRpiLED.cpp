@@ -21,6 +21,12 @@ void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int ch
     // This looks like it gets prematurely deallocated without a copy
     options.hardware_mapping = hardwareMappingBuffer; // {hardware_mapping = 0x8358d0 "\030\270>\266",
     
+    const std::string::size_type ledRgbSequenceSize = ledRgbSequence.size();
+    char *ledRgbSequenceBuffer = new char[ledRgbSequenceSize + 1]; //we need extra char for NUL
+    memcpy(ledRgbSequenceBuffer, ledRgbSequence.c_str(), ledRgbSequenceSize + 1);
+    // This looks like it gets prematurely deallocated without a copy
+    options.led_rgb_sequence = ledRgbSequenceBuffer;
+
     options.rows = rows; // Default
     options.cols = columns; // Default
     options.chain_length = chain;
