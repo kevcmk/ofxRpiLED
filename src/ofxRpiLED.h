@@ -12,7 +12,6 @@ private:
 	int 		cH;
         rgb_matrix::RGBMatrix   *matrix;
         rgb_matrix::Canvas      *canvas;
-        rgb_matrix::FrameCanvas *off_screen_canvas;
 
 public:
 	ofxRpiLED();

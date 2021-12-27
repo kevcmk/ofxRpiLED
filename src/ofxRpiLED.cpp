@@ -6,7 +6,6 @@ ofxRpiLED::ofxRpiLED() {}
 
 // Desonstructor
 ofxRpiLED::~ofxRpiLED() {
-    off_screen_canvas->Clear();
     matrix->Clear();
     delete matrix;
 }
@@ -59,7 +58,7 @@ void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int ch
 }
 
 void ofxRpiLED::clear(){
-	canvas->Clear();
+	matrix->Clear();
 }
 
 void ofxRpiLED::draw(ofPixels &p){
@@ -68,10 +67,9 @@ void ofxRpiLED::draw(ofPixels &p){
 	for (int x = 0; x < w; x++) {
 		for (int y = 0; y < h; y++) {
 			ofColor c = p.getColor(x, y);
-            off_screen_canvas->SetPixel(x, y, c.r, c.g, c.b);
+            matrix->SetPixel(x, y, c.r, c.g, c.b);
 		}
 	}
-    off_screen_canvas = matrix->SwapOnVSync(off_screen_canvas);
 }
 
 void ofxRpiLED::draw(ofImage &i){
@@ -80,8 +78,7 @@ void ofxRpiLED::draw(ofImage &i){
 	for (int x = 0; x < w; x++) {
 		for (unsigned int y = 0; y < h; y++) {
 			ofColor c = i.getColor(x, y);
-            off_screen_canvas->SetPixel(x, y, c.r, c.g, c.b);
+            matrix->SetPixel(x, y, c.r, c.g, c.b);
 		}
 	}
-    off_screen_canvas = matrix->SwapOnVSync(off_screen_canvas);
 }
