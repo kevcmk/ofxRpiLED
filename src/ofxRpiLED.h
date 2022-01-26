@@ -27,6 +27,8 @@ public:
                std::string ledRgbSequence = std::string("RGB")
                );
 	void clear();
+    uint8_t getBrightness();
+    void setBrightness(uint8_t brightness);
 	void draw(ofImage &i);
 	void draw(ofPixels &p);
     
