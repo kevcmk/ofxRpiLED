@@ -61,7 +61,7 @@ void ofxRpiLED::setup(std::string hardwareMapping, int columns, int rows, int ch
 
 }
 
-void ofxRpiLED::getBrightness() {
+uint8_t ofxRpiLED::getBrightness() {
     return matrix->brightness();
 }
 
